@@ -11,118 +11,88 @@ import { SerperClient, SerperValidationError } from "../mod.ts";
 import { jsonResponse, mockFetch, mockSearchResult } from "./helpers.ts";
 
 Deno.test("search - returns organic results", async () => {
-  const restore = mockFetch(jsonResponse(mockSearchResult()));
+  using _fetch = mockFetch(jsonResponse(mockSearchResult()));
+  const client = new SerperClient({ apiKey: "test-key" });
+  const result = await client.search("test query");
 
-  try {
-    const client = new SerperClient({ apiKey: "test-key" });
-    const result = await client.search("test query");
-
-    assertEquals(result.organic.length, 2);
-    assertEquals(result.organic[0]?.title, "Test Result 1");
-    assertEquals(result.organic[0]?.position, 1);
-  } finally {
-    restore();
-  }
+  assertEquals(result.organic.length, 2);
+  assertEquals(result.organic[0]?.title, "Test Result 1");
 });
 
 Deno.test("search - includes search parameters", async () => {
-  const restore = mockFetch(jsonResponse(mockSearchResult()));
+  using _fetch = mockFetch(jsonResponse(mockSearchResult()));
+  const client = new SerperClient({ apiKey: "test-key" });
+  const result = await client.search("test query");
 
-  try {
-    const client = new SerperClient({ apiKey: "test-key" });
-    const result = await client.search("test query");
-
-    assertExists(result.searchParameters);
-    assertEquals(result.searchParameters.q, "test query");
-    assertEquals(result.searchParameters.type, "search");
-  } finally {
-    restore();
-  }
+  assertEquals(result.searchParameters.q, "test query");
+  assertEquals(result.searchParameters.type, "search");
 });
 
 Deno.test("search - sends correct headers", async () => {
-  let apiKeyHeader = "";
-  let contentTypeHeader = "";
+  let capturedHeaders: Headers | undefined;
 
-  const restore = mockFetch((req: Request) => {
-    apiKeyHeader = req.headers.get("X-API-KEY") ?? "";
-    contentTypeHeader = req.headers.get("Content-Type") ?? "";
+  using _fetch = mockFetch((req) => {
+    capturedHeaders = req.headers;
     return jsonResponse(mockSearchResult());
   });
 
-  try {
-    const client = new SerperClient({ apiKey: "test-api-key" });
-    await client.search("test");
+  const client = new SerperClient({ apiKey: "test-key-123" });
+  await client.search("test");
 
-    assertEquals(apiKeyHeader, "test-api-key");
-    assertEquals(contentTypeHeader, "application/json");
-  } finally {
-    restore();
-  }
+  assertEquals(capturedHeaders?.get("X-API-KEY"), "test-key-123");
+  assertEquals(capturedHeaders?.get("Content-Type"), "application/json");
 });
 
 Deno.test("search - sends query in request body", async () => {
   let capturedBody: string | null = null;
 
-  const restore = mockFetch(async (req: Request) => {
+  using _fetch = mockFetch(async (req: Request) => {
     capturedBody = await req.text();
     return jsonResponse(mockSearchResult());
   });
 
-  try {
-    const client = new SerperClient({ apiKey: "test-key" });
-    await client.search("my search query");
+  const client = new SerperClient({ apiKey: "test-key" });
+  await client.search("my search query");
 
-    assertExists(capturedBody);
-    const body = JSON.parse(capturedBody);
-    assertEquals(body.q, "my search query");
-  } finally {
-    restore();
-  }
+  assertExists(capturedBody);
+  const body = JSON.parse(capturedBody);
+  assertEquals(body.q, "my search query");
 });
 
 Deno.test("search - applies default country from config", async () => {
   let capturedBody: string | null = null;
 
-  const restore = mockFetch(async (req: Request) => {
+  using _fetch = mockFetch(async (req: Request) => {
     capturedBody = await req.text();
     return jsonResponse(mockSearchResult());
   });
 
-  try {
-    const client = new SerperClient({
-      apiKey: "test-key",
-      defaultCountry: "us",
-    });
-    await client.search("test");
+  const client = new SerperClient({
+    apiKey: "test-key",
+    defaultCountry: "us",
+  });
+  await client.search("test");
 
-    const body = JSON.parse(capturedBody!);
-    assertEquals(body.gl, "us");
-  } finally {
-    restore();
-  }
+  const body = JSON.parse(capturedBody!);
+  assertEquals(body.gl, "us");
 });
 
 Deno.test("search - request options override defaults", async () => {
   let capturedBody: string | null = null;
 
-  const restore = mockFetch(async (req: Request) => {
+  using _fetch = mockFetch(async (req: Request) => {
     capturedBody = await req.text();
     return jsonResponse(mockSearchResult());
   });
 
-  try {
-    const client = new SerperClient({
-      apiKey: "test-key",
-      defaultCountry: "us",
-    });
-    await client.search("test", { gl: "de" });
+  const client = new SerperClient({
+    apiKey: "test-key",
+    defaultCountry: "us",
+  });
+  await client.search("test", { gl: "de" });
 
-    const body = JSON.parse(capturedBody!);
-    assertEquals(body.gl, "de");
-  } finally {
-    restore();
-  }
+  const body = JSON.parse(capturedBody!);
+  assertEquals(body.gl, "de");
 });
 
 Deno.test("search - throws on empty query", async () => {

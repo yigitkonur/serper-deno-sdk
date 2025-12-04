@@ -8,11 +8,11 @@
  * Returns a cleanup function to restore the original fetch.
  *
  * @param response - Response to return, or a function that returns a Response
- * @returns Cleanup function to restore original fetch
+ * @returns Object with Symbol.dispose to restore original fetch
  */
 export function mockFetch(
   response: Response | ((req: Request) => Response | Promise<Response>),
-): () => void {
+): { [Symbol.dispose]: () => void } {
   const originalFetch = globalThis.fetch;
 
   globalThis.fetch = async (
@@ -26,8 +26,10 @@ export function mockFetch(
     return response.clone();
   };
 
-  return () => {
-    globalThis.fetch = originalFetch;
+  return {
+    [Symbol.dispose]: () => {
+      globalThis.fetch = originalFetch;
+    },
   };
 }
 

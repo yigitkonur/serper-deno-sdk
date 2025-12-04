@@ -1,0 +1,17 @@
+{
+  "scriptId": "370",
+  "url": "file:///Users/yigitkonur/dev/serper-deno-sdk/src/constants.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 0,
+          "endOffset": 435,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    }
+  ]
+}

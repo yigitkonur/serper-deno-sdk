@@ -1,0 +1,294 @@
+{
+  "scriptId": "364",
+  "url": "file:///Users/yigitkonur/dev/serper-deno-sdk/src/client.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 0,
+          "endOffset": 14676,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "<instance_members_initializer>",
+      "ranges": [
+        {
+          "startOffset": 1342,
+          "endOffset": 1571,
+          "count": 10
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "SerperClient",
+      "ranges": [
+        {
+          "startOffset": 1904,
+          "endOffset": 2283,
+          "count": 10
+        },
+        {
+          "startOffset": 1951,
+          "endOffset": 2035,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "search",
+      "ranges": [
+        {
+          "startOffset": 3203,
+          "endOffset": 3453,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "searchImages",
+      "ranges": [
+        {
+          "startOffset": 4065,
+          "endOffset": 4321,
+          "count": 1
+        },
+        {
+          "startOffset": 4147,
+          "endOffset": 4225,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "searchNews",
+      "ranges": [
+        {
+          "startOffset": 4883,
+          "endOffset": 5135,
+          "count": 1
+        },
+        {
+          "startOffset": 4963,
+          "endOffset": 5041,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "searchVideos",
+      "ranges": [
+        {
+          "startOffset": 5635,
+          "endOffset": 5891,
+          "count": 1
+        },
+        {
+          "startOffset": 5717,
+          "endOffset": 5795,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "searchShopping",
+      "ranges": [
+        {
+          "startOffset": 6487,
+          "endOffset": 6747,
+          "count": 1
+        },
+        {
+          "startOffset": 6571,
+          "endOffset": 6649,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "searchMaps",
+      "ranges": [
+        {
+          "startOffset": 7428,
+          "endOffset": 7680,
+          "count": 2
+        },
+        {
+          "startOffset": 7508,
+          "endOffset": 7586,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "searchPlaces",
+      "ranges": [
+        {
+          "startOffset": 8136,
+          "endOffset": 8226,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "getReviews",
+      "ranges": [
+        {
+          "startOffset": 9144,
+          "endOffset": 9410,
+          "count": 1
+        },
+        {
+          "startOffset": 9197,
+          "endOffset": 9212,
+          "count": 0
+        },
+        {
+          "startOffset": 9213,
+          "endOffset": 9226,
+          "count": 0
+        },
+        {
+          "startOffset": 9228,
+          "endOffset": 9336,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "searchScholar",
+      "ranges": [
+        {
+          "startOffset": 10075,
+          "endOffset": 10333,
+          "count": 1
+        },
+        {
+          "startOffset": 10158,
+          "endOffset": 10236,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "searchPatents",
+      "ranges": [
+        {
+          "startOffset": 10903,
+          "endOffset": 11161,
+          "count": 1
+        },
+        {
+          "startOffset": 10986,
+          "endOffset": 11064,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "autocomplete",
+      "ranges": [
+        {
+          "startOffset": 11748,
+          "endOffset": 12003,
+          "count": 1
+        },
+        {
+          "startOffset": 11830,
+          "endOffset": 11901,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "#request",
+      "ranges": [
+        {
+          "startOffset": 12079,
+          "endOffset": 13830,
+          "count": 10
+        },
+        {
+          "startOffset": 12276,
+          "endOffset": 12294,
+          "count": 0
+        },
+        {
+          "startOffset": 12296,
+          "endOffset": 12348,
+          "count": 0
+        },
+        {
+          "startOffset": 12379,
+          "endOffset": 12397,
+          "count": 0
+        },
+        {
+          "startOffset": 12399,
+          "endOffset": 12452,
+          "count": 0
+        },
+        {
+          "startOffset": 13062,
+          "endOffset": 13114,
+          "count": 0
+        },
+        {
+          "startOffset": 13182,
+          "endOffset": 13826,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 12560,
+          "endOffset": 12585,
+          "count": 11
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 12668,
+          "endOffset": 12690,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": false
+    },
+    {
+      "functionName": "#handleError",
+      "ranges": [
+        {
+          "startOffset": 13906,
+          "endOffset": 14673,
+          "count": 0
+        }
+      ],
+      "isBlockCoverage": false
+    }
+  ]
+}

@@ -18,61 +18,35 @@ import {
 import { errorResponse, jsonResponse, mockFetch, mockSearchResult } from "./helpers.ts";
 
 Deno.test("errors - 401 throws SerperAuthError", async () => {
-  const restore = mockFetch(errorResponse("Invalid API key", 401));
+  using _fetch = mockFetch(errorResponse("Invalid API key", 401));
+  const client = new SerperClient({ apiKey: "bad-key" });
 
-  try {
-    const client = new SerperClient({ apiKey: "bad-key" });
-
-    await assertRejects(
-      () => client.search("test"),
-      SerperAuthError,
-      "Invalid API key",
-    );
-  } finally {
-    restore();
-  }
+  await assertRejects(
+    () => client.search("test"),
+    SerperAuthError,
+    "Invalid API key",
+  );
 });
 
 Deno.test("errors - 429 throws SerperRateLimitError", async () => {
-  const restore = mockFetch(errorResponse("Rate limit exceeded", 429));
+  using _fetch = mockFetch(errorResponse("Rate limit exceeded", 429));
+  const client = new SerperClient({ apiKey: "test-key" });
 
-  try {
-    const client = new SerperClient({ apiKey: "test-key" });
-
-    await assertRejects(() => client.search("test"), SerperRateLimitError);
-  } finally {
-    restore();
-  }
+  await assertRejects(() => client.search("test"), SerperRateLimitError);
 });
 
 Deno.test("errors - 400 throws SerperValidationError", async () => {
-  const restore = mockFetch(errorResponse("Missing required parameter", 400));
+  using _fetch = mockFetch(errorResponse("Missing required parameter", 400));
+  const client = new SerperClient({ apiKey: "test-key" });
 
-  try {
-    const client = new SerperClient({ apiKey: "test-key" });
-
-    // Need to bypass client-side validation
-    const restore2 = mockFetch(errorResponse("Missing required parameter", 400));
-    try {
-      await assertRejects(() => client.search("valid query"), SerperValidationError);
-    } finally {
-      restore2();
-    }
-  } finally {
-    restore();
-  }
+  await assertRejects(() => client.search("test"), SerperValidationError);
 });
 
 Deno.test("errors - 500 throws SerperServerError", async () => {
-  const restore = mockFetch(errorResponse("Internal server error", 500));
+  using _fetch = mockFetch(errorResponse("Internal server error", 500));
+  const client = new SerperClient({ apiKey: "test-key" });
 
-  try {
-    const client = new SerperClient({ apiKey: "test-key" });
-
-    await assertRejects(() => client.search("test"), SerperServerError);
-  } finally {
-    restore();
-  }
+  await assertRejects(() => client.search("test"), SerperServerError);
 });
 
 Deno.test("errors - error inheritance chain is correct", () => {
@@ -119,17 +93,12 @@ Deno.test("errors - error names are correct", () => {
 });
 
 Deno.test("getReviews - throws when no identifier provided", async () => {
-  const restore = mockFetch(jsonResponse(mockSearchResult()));
+  using _fetch = mockFetch(jsonResponse(mockSearchResult()));
+  const client = new SerperClient({ apiKey: "test-key" });
 
-  try {
-    const client = new SerperClient({ apiKey: "test-key" });
-
-    await assertRejects(
-      () => client.getReviews({}),
-      SerperValidationError,
-      "At least one of placeId, cid, or q is required",
-    );
-  } finally {
-    restore();
-  }
+  await assertRejects(
+    () => client.getReviews({}),
+    SerperValidationError,
+    "At least one of placeId, cid, or q is required for reviews",
+  );
 });
