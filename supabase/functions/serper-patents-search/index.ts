@@ -1,7 +1,7 @@
-// Serper Web Search Edge Function
-// curl -X POST http://localhost:54321/functions/v1/serper-web-search \
+// Serper Patents Search Edge Function
+// curl -X POST http://localhost:54321/functions/v1/serper-patents-search \
 //   -H "Content-Type: application/json" \
-//   -d '{"query": "TypeScript Deno"}'
+//   -d '{"query": "electric vehicle battery"}'
 
 import { SerperClient } from "jsr:@yigitkonur/serper-deno-sdk@1.0.1";
 
@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
     }
 
     const client = new SerperClient({ apiKey: Deno.env.get("SERPER_API_KEY")! });
-    const results = await client.search(query, { num, gl, hl });
+    const results = await client.searchPatents(query, { num, gl, hl });
 
     return Response.json(results, { headers: corsHeaders });
   } catch (error) {

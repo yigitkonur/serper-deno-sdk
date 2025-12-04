@@ -1,7 +1,7 @@
-// Serper Web Search Edge Function
-// curl -X POST http://localhost:54321/functions/v1/serper-web-search \
+// Serper Reviews Edge Function
+// curl -X POST http://localhost:54321/functions/v1/serper-reviews \
 //   -H "Content-Type: application/json" \
-//   -d '{"query": "TypeScript Deno"}'
+//   -d '{"placeId": "ChIJj61dQgK6j4AR4GeTYWZsKWw"}'
 
 import { SerperClient } from "jsr:@yigitkonur/serper-deno-sdk@1.0.1";
 
@@ -16,13 +16,13 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { query, num = 10, gl, hl } = await req.json();
-    if (!query) {
-      return Response.json({ error: "Missing query" }, { status: 400, headers: corsHeaders });
+    const { placeId, limit = 10 } = await req.json();
+    if (!placeId) {
+      return Response.json({ error: "Missing placeId" }, { status: 400, headers: corsHeaders });
     }
 
     const client = new SerperClient({ apiKey: Deno.env.get("SERPER_API_KEY")! });
-    const results = await client.search(query, { num, gl, hl });
+    const results = await client.getReviews({ placeId, limit });
 
     return Response.json(results, { headers: corsHeaders });
   } catch (error) {

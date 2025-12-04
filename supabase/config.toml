@@ -1,8 +1,5 @@
 # Supabase Configuration for Serper SDK Edge Functions
 
-[project]
-name = "serper-deno-sdk"
-
 [api]
 enabled = true
 port = 54321
@@ -46,5 +43,4 @@ enable_confirmations = false
 
 [edge_runtime]
 enabled = true
-port = 54321
 inspector_port = 8083
