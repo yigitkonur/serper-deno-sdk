@@ -1,9 +1,9 @@
 /**
  * Serper News Aggregator Edge Function
- * 
+ *
  * Business Use Case: Real-time news monitoring and aggregation
  * Useful for: News apps, content curation, market intelligence
- * 
+ *
  * Example Request:
  * POST /serper-news-aggregator
  * {
@@ -31,7 +31,7 @@ serve(async (req) => {
     if (!topics || !Array.isArray(topics) || topics.length === 0) {
       return new Response(
         JSON.stringify({ error: "Topics array is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -39,17 +39,17 @@ serve(async (req) => {
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: "SERPER_API_KEY not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     const client = new SerperClient({ apiKey, defaultCountry: gl });
 
     // Fetch news for all topics in parallel
-    const newsPromises = topics.map(topic =>
-      client.searchNews(topic, { num }).then(result => ({
+    const newsPromises = topics.map((topic) =>
+      client.searchNews(topic, { num }).then((result) => ({
         topic,
-        articles: result.news.map(article => ({
+        articles: result.news.map((article) => ({
           title: article.title,
           link: article.link,
           source: article.source,
@@ -73,14 +73,14 @@ serve(async (req) => {
           topicsQueried: topics,
         },
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error" 
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

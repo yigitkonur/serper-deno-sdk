@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
 import { SerperClient } from "../mod.ts";
 
 const client = new SerperClient({
-  apiKey: Deno.env.get("SERPER_API_KEY")!
+  apiKey: Deno.env.get("SERPER_API_KEY")!,
 });
 
 serve(async (req) => {
@@ -13,15 +13,15 @@ serve(async (req) => {
     }
 
     const results = await client.search(query);
-    
+
     return new Response(
       JSON.stringify(results),
-      { headers: { "Content-Type": "application/json" } }
+      { headers: { "Content-Type": "application/json" } },
     );
   } catch (error) {
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 });

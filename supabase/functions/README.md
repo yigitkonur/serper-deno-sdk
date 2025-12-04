@@ -5,9 +5,11 @@ Business-oriented Edge Functions demonstrating real-world use cases for the Serp
 ## Available Functions
 
 ### 1. **serper-web-search**
+
 General web search API endpoint.
 
 **Use Case:** Search engine integration, content discovery
+
 ```bash
 curl -X POST https://your-project.supabase.co/functions/v1/serper-web-search \
   -H "Content-Type: application/json" \
@@ -15,9 +17,11 @@ curl -X POST https://your-project.supabase.co/functions/v1/serper-web-search \
 ```
 
 ### 2. **serper-news-aggregator**
+
 Multi-topic news aggregation.
 
 **Use Case:** News monitoring, content curation, market intelligence
+
 ```bash
 curl -X POST https://your-project.supabase.co/functions/v1/serper-news-aggregator \
   -H "Content-Type: application/json" \
@@ -25,9 +29,11 @@ curl -X POST https://your-project.supabase.co/functions/v1/serper-news-aggregato
 ```
 
 ### 3. **serper-local-business-finder**
+
 Find local businesses with optional reviews.
 
 **Use Case:** Directory apps, local search, business discovery
+
 ```bash
 curl -X POST https://your-project.supabase.co/functions/v1/serper-local-business-finder \
   -H "Content-Type: application/json" \
@@ -35,9 +41,11 @@ curl -X POST https://your-project.supabase.co/functions/v1/serper-local-business
 ```
 
 ### 4. **serper-product-research**
+
 E-commerce product research with price comparison.
 
 **Use Case:** Price monitoring, competitor analysis, product discovery
+
 ```bash
 curl -X POST https://your-project.supabase.co/functions/v1/serper-product-research \
   -H "Content-Type: application/json" \
@@ -45,9 +53,11 @@ curl -X POST https://your-project.supabase.co/functions/v1/serper-product-resear
 ```
 
 ### 5. **serper-academic-search**
+
 Academic paper discovery and research.
 
 **Use Case:** Research platforms, citation tools, academic databases
+
 ```bash
 curl -X POST https://your-project.supabase.co/functions/v1/serper-academic-search \
   -H "Content-Type: application/json" \
@@ -55,9 +65,11 @@ curl -X POST https://your-project.supabase.co/functions/v1/serper-academic-searc
 ```
 
 ### 6. **serper-bulk-search**
+
 Batch processing for multiple search queries.
 
 **Use Case:** SEO tools, market research, content analysis at scale
+
 ```bash
 curl -X POST https://your-project.supabase.co/functions/v1/serper-bulk-search \
   -H "Content-Type: application/json" \
@@ -73,21 +85,25 @@ curl -X POST https://your-project.supabase.co/functions/v1/serper-bulk-search \
 ## Setup
 
 ### 1. Install Supabase CLI
+
 ```bash
 npm install -g supabase
 ```
 
 ### 2. Initialize Supabase (if not already done)
+
 ```bash
 supabase init
 ```
 
 ### 3. Set Environment Variables
+
 ```bash
 supabase secrets set SERPER_API_KEY=your_api_key_here
 ```
 
 ### 4. Deploy Functions
+
 ```bash
 # Deploy all functions
 supabase functions deploy
@@ -102,6 +118,7 @@ supabase functions deploy serper-bulk-search
 ```
 
 ### 5. Test Locally
+
 ```bash
 # Start local development
 supabase start
@@ -118,6 +135,7 @@ curl -X POST http://localhost:54321/functions/v1/serper-web-search \
 ## Environment Variables
 
 Create `.env.local` in `supabase/` directory:
+
 ```
 SERPER_API_KEY=your_serper_api_key_here
 ```
@@ -125,10 +143,13 @@ SERPER_API_KEY=your_serper_api_key_here
 ## Architecture Patterns
 
 ### CORS Handling
+
 All functions include proper CORS headers for browser-based applications.
 
 ### Error Handling
+
 Consistent error response format:
+
 ```json
 {
   "error": "Error message here"
@@ -136,44 +157,48 @@ Consistent error response format:
 ```
 
 ### Parallel Processing
+
 Functions like `serper-news-aggregator` and `serper-bulk-search` use `Promise.all()` for efficient parallel API calls.
 
 ### Type Safety
+
 All functions leverage the SDK's TypeScript types for compile-time safety.
 
 ## Business Use Cases
 
-| Function | Industry | Use Case |
-|----------|----------|----------|
-| web-search | General | Search integration, content discovery |
-| news-aggregator | Media | News monitoring, content curation |
-| local-business-finder | Local Services | Directory apps, business discovery |
-| product-research | E-commerce | Price monitoring, competitor analysis |
-| academic-search | Education | Research platforms, citation tools |
-| bulk-search | SEO/Marketing | Market research, content analysis |
+| Function              | Industry       | Use Case                              |
+| --------------------- | -------------- | ------------------------------------- |
+| web-search            | General        | Search integration, content discovery |
+| news-aggregator       | Media          | News monitoring, content curation     |
+| local-business-finder | Local Services | Directory apps, business discovery    |
+| product-research      | E-commerce     | Price monitoring, competitor analysis |
+| academic-search       | Education      | Research platforms, citation tools    |
+| bulk-search           | SEO/Marketing  | Market research, content analysis     |
 
 ## Rate Limiting
 
 Consider implementing rate limiting for production:
+
 ```typescript
 // Example using Supabase Edge Function rate limiting
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_ANON_KEY')!
-)
+  Deno.env.get("SUPABASE_URL")!,
+  Deno.env.get("SUPABASE_ANON_KEY")!,
+);
 
 // Check rate limit in your function
-const { data, error } = await supabase.rpc('check_rate_limit', {
+const { data, error } = await supabase.rpc("check_rate_limit", {
   user_id: userId,
-  endpoint: 'serper-web-search'
-})
+  endpoint: "serper-web-search",
+});
 ```
 
 ## Monitoring
 
 View function logs:
+
 ```bash
 supabase functions logs serper-web-search
 ```

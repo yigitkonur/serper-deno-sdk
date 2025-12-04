@@ -10,7 +10,7 @@ const client = new SerperClient({ apiKey });
 
 try {
   const results = await client.search("Deno runtime");
-  
+
   console.log("--- Organic Results ---");
   for (const result of results.organic) {
     console.log(`${result.title}`);

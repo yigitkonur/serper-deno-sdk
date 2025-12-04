@@ -1,6 +1,6 @@
-import { assertEquals } from "https://deno.land/std@0.208.0/assert/mod.ts";
-import { SerperClient } from "../mod.ts";
-import { mockFetch, jsonResponse } from "./helpers.ts";
+import { assertEquals, assertRejects } from "https://deno.land/std@0.208.0/assert/mod.ts";
+import { SerperClient, SerperServerError, SerperValidationError } from "../mod.ts";
+import { jsonResponse, mockFetch } from "./helpers.ts";
 
 Deno.test("searchImages - returns image results", async () => {
   const mockData = {
@@ -138,4 +138,148 @@ Deno.test("autocomplete - returns suggestions", async () => {
   const result = await client.autocomplete("deno");
 
   assertEquals(result.suggestions[0]?.value, "deno deploy");
+});
+
+// ========================================
+// Empty Query Validation Tests
+// ========================================
+
+Deno.test("searchImages - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.searchImages(""),
+    SerperValidationError,
+    "Search query cannot be empty",
+  );
+});
+
+Deno.test("searchNews - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.searchNews("   "),
+    SerperValidationError,
+    "Search query cannot be empty",
+  );
+});
+
+Deno.test("searchVideos - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.searchVideos(""),
+    SerperValidationError,
+    "Search query cannot be empty",
+  );
+});
+
+Deno.test("searchShopping - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.searchShopping(""),
+    SerperValidationError,
+    "Search query cannot be empty",
+  );
+});
+
+Deno.test("searchMaps - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.searchMaps(""),
+    SerperValidationError,
+    "Search query cannot be empty",
+  );
+});
+
+Deno.test("searchScholar - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.searchScholar(""),
+    SerperValidationError,
+    "Search query cannot be empty",
+  );
+});
+
+Deno.test("searchPatents - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.searchPatents(""),
+    SerperValidationError,
+    "Search query cannot be empty",
+  );
+});
+
+Deno.test("autocomplete - throws on empty query", async () => {
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.autocomplete(""),
+    SerperValidationError,
+    "Query cannot be empty",
+  );
+});
+
+// ========================================
+// Default Language Tests
+// ========================================
+
+Deno.test("search - applies default language from config", async () => {
+  let capturedBody: string | null = null;
+  const mockData = { searchParameters: { q: "test" }, organic: [] };
+
+  using _fetch = mockFetch(async (req: Request) => {
+    capturedBody = await req.text();
+    return jsonResponse(mockData);
+  });
+
+  const client = new SerperClient({
+    apiKey: "test-key",
+    defaultLanguage: "de",
+  });
+  await client.search("test");
+
+  const body = JSON.parse(capturedBody!);
+  assertEquals(body.hl, "de");
+});
+
+// ========================================
+// Error Handling Tests
+// ========================================
+
+Deno.test("search - handles non-JSON error response", async () => {
+  using _fetch = mockFetch(
+    new Response("Internal Server Error", {
+      status: 500,
+      headers: { "Content-Type": "text/plain" },
+    }),
+  );
+
+  const client = new SerperClient({ apiKey: "test-key" });
+  await assertRejects(
+    () => client.search("test"),
+    SerperServerError,
+  );
+});
+
+Deno.test("getReviews - works with cid parameter", async () => {
+  const mockData = {
+    searchParameters: { cid: "123" },
+    reviews: [{ rating: 5, snippet: "Great", user: { name: "Test" } }],
+  };
+  using _fetch = mockFetch(jsonResponse(mockData));
+
+  const client = new SerperClient({ apiKey: "test-key" });
+  const result = await client.getReviews({ cid: "123" });
+
+  assertEquals(result.reviews[0]?.rating, 5);
+});
+
+Deno.test("getReviews - works with q parameter", async () => {
+  const mockData = {
+    searchParameters: { q: "coffee shop" },
+    reviews: [{ rating: 4, snippet: "Nice", user: { name: "User" } }],
+  };
+  using _fetch = mockFetch(jsonResponse(mockData));
+
+  const client = new SerperClient({ apiKey: "test-key" });
+  const result = await client.getReviews({ q: "coffee shop" });
+
+  assertEquals(result.reviews[0]?.rating, 4);
 });

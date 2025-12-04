@@ -1,9 +1,9 @@
 /**
  * Serper Product Research Edge Function
- * 
+ *
  * Business Use Case: E-commerce product research and price comparison
  * Useful for: Price monitoring, competitor analysis, product discovery
- * 
+ *
  * Example Request:
  * POST /serper-product-research
  * {
@@ -31,7 +31,7 @@ serve(async (req) => {
     if (!products || !Array.isArray(products) || products.length === 0) {
       return new Response(
         JSON.stringify({ error: "Products array is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -39,7 +39,7 @@ serve(async (req) => {
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: "SERPER_API_KEY not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -48,8 +48,8 @@ serve(async (req) => {
     // Search shopping results for all products in parallel
     const productPromises = products.map(async (product) => {
       const results = await client.searchShopping(product, { num: maxResults });
-      
-      const items = results.shopping.map(item => ({
+
+      const items = results.shopping.map((item) => ({
         title: item.title,
         price: item.price,
         source: item.source,
@@ -62,18 +62,20 @@ serve(async (req) => {
 
       // Calculate price statistics
       const prices = items
-        .map(item => {
+        .map((item) => {
           const match = item.price?.match(/[\d,]+\.?\d*/);
           return match ? parseFloat(match[0].replace(/,/g, "")) : null;
         })
         .filter((p): p is number => p !== null);
 
-      const stats = prices.length > 0 ? {
-        min: Math.min(...prices),
-        max: Math.max(...prices),
-        avg: prices.reduce((a, b) => a + b, 0) / prices.length,
-        count: prices.length,
-      } : null;
+      const stats = prices.length > 0
+        ? {
+          min: Math.min(...prices),
+          max: Math.max(...prices),
+          avg: prices.reduce((a, b) => a + b, 0) / prices.length,
+          count: prices.length,
+        }
+        : null;
 
       return {
         product,
@@ -92,14 +94,14 @@ serve(async (req) => {
         totalProducts: products.length,
         products: allProducts,
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error" 
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

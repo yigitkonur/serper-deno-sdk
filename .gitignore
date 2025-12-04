@@ -1,6 +1,7 @@
 # Deno
 deno.lock
 coverage/
+cov_profile/
 
 # IDE
 .vscode/

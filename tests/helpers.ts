@@ -88,32 +88,3 @@ export function mockSearchResult(): Record<string, unknown> {
     relatedSearches: [{ query: "related query 1" }],
   };
 }
-
-/**
- * Creates a mock image search result for testing.
- */
-export function mockImageSearchResult(): Record<string, unknown> {
-  return {
-    searchParameters: {
-      q: "test",
-      type: "images",
-      engine: "google",
-    },
-    images: [
-      {
-        title: "Test Image",
-        imageUrl: "https://example.com/image.jpg",
-        thumbnailUrl: "https://example.com/thumb.jpg",
-        imageWidth: 1920,
-        imageHeight: 1080,
-        thumbnailWidth: 160,
-        thumbnailHeight: 90,
-        source: "Example",
-        domain: "example.com",
-        link: "https://example.com/page",
-        googleUrl: "https://google.com/imgres",
-        position: 1,
-      },
-    ],
-  };
-}

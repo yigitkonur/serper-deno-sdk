@@ -1,9 +1,9 @@
 /**
  * Serper Bulk Search Edge Function
- * 
+ *
  * Business Use Case: Batch processing multiple search queries
  * Useful for: SEO tools, market research, content analysis at scale
- * 
+ *
  * Example Request:
  * POST /serper-bulk-search
  * {
@@ -43,14 +43,14 @@ serve(async (req) => {
     if (!queries || !Array.isArray(queries) || queries.length === 0) {
       return new Response(
         JSON.stringify({ error: "Queries array is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     if (queries.length > 50) {
       return new Response(
         JSON.stringify({ error: "Maximum 50 queries allowed per request" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -58,7 +58,7 @@ serve(async (req) => {
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: "SERPER_API_KEY not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -68,7 +68,7 @@ serve(async (req) => {
     const results = await Promise.allSettled(
       queries.map(async (q: SearchQuery) => {
         const options = { num: maxResultsPerQuery, gl: q.gl, hl: q.hl };
-        
+
         switch (q.type) {
           case "search":
             return { ...q, results: await client.search(q.query, options) };
@@ -81,21 +81,21 @@ serve(async (req) => {
           case "shopping":
             return { ...q, results: await client.searchShopping(q.query, options) };
           case "places":
-            return { 
-              ...q, 
-              results: await client.searchMaps(q.query, { 
-                ...options, 
-                location: q.location 
-              }) 
+            return {
+              ...q,
+              results: await client.searchMaps(q.query, {
+                ...options,
+                location: q.location,
+              }),
             };
           default:
             throw new Error(`Unknown search type: ${q.type}`);
         }
-      })
+      }),
     );
 
-    const successful = results.filter(r => r.status === "fulfilled").length;
-    const failed = results.filter(r => r.status === "rejected").length;
+    const successful = results.filter((r) => r.status === "fulfilled").length;
+    const failed = results.filter((r) => r.status === "rejected").length;
 
     return new Response(
       JSON.stringify({
@@ -114,14 +114,14 @@ serve(async (req) => {
           error: r.status === "rejected" ? r.reason.message : null,
         })),
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error" 
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

@@ -1,9 +1,9 @@
 /**
  * Serper Local Business Finder Edge Function
- * 
+ *
  * Business Use Case: Find local businesses with reviews
  * Useful for: Directory apps, local search, business discovery
- * 
+ *
  * Example Request:
  * POST /serper-local-business-finder
  * {
@@ -33,7 +33,7 @@ serve(async (req) => {
     if (!query || !location) {
       return new Response(
         JSON.stringify({ error: "Query and location are required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -41,20 +41,20 @@ serve(async (req) => {
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: "SERPER_API_KEY not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     const client = new SerperClient({ apiKey });
 
     // Search for places
-    const placesResult = await client.searchMaps(query, { 
-      location, 
-      num: maxResults 
+    const placesResult = await client.searchMaps(query, {
+      location,
+      num: maxResults,
     });
 
     // Optionally fetch reviews for top results
-    let businessesWithReviews = placesResult.places.map(place => ({
+    let businessesWithReviews = placesResult.places.map((place) => ({
       name: place.title,
       address: place.address,
       rating: place.rating,
@@ -72,13 +72,13 @@ serve(async (req) => {
       const reviewsPromises = businessesWithReviews.slice(0, 3).map(async (business) => {
         if (business.placeId) {
           try {
-            const reviews = await client.getReviews({ 
-              placeId: business.placeId, 
-              limit: 5 
+            const reviews = await client.getReviews({
+              placeId: business.placeId,
+              limit: 5,
             });
             return {
               placeId: business.placeId,
-              reviews: reviews.reviews.map(r => ({
+              reviews: reviews.reviews.map((r) => ({
                 rating: r.rating,
                 date: r.date,
                 snippet: r.snippet,
@@ -93,10 +93,10 @@ serve(async (req) => {
       });
 
       const reviewsData = await Promise.all(reviewsPromises);
-      
+
       // Merge reviews data
-      businessesWithReviews = businessesWithReviews.map(business => {
-        const reviewData = reviewsData.find(r => r?.placeId === business.placeId);
+      businessesWithReviews = businessesWithReviews.map((business) => {
+        const reviewData = reviewsData.find((r) => r?.placeId === business.placeId);
         return {
           ...business,
           reviewsData: reviewData?.reviews || null,
@@ -112,14 +112,14 @@ serve(async (req) => {
         totalResults: businessesWithReviews.length,
         businesses: businessesWithReviews,
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error" 
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

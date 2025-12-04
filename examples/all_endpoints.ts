@@ -6,11 +6,11 @@
  */
 
 import {
-  SerperClient,
   SerperAuthError,
+  SerperClient,
   SerperRateLimitError,
-  SerperValidationError,
   SerperServerError,
+  SerperValidationError,
 } from "../mod.ts";
 
 // Get API key from environment
@@ -37,7 +37,7 @@ let failed = 0;
 async function runTest<T>(
   name: string,
   fn: () => Promise<T>,
-  validate: (result: T) => void
+  validate: (result: T) => void,
 ): Promise<void> {
   console.log(`\n📋 Testing: ${name}`);
   try {
@@ -81,7 +81,7 @@ await runTest(
       console.log(`   → People Also Ask: ${result.peopleAlsoAsk.length} questions`);
     }
     if (!result.organic.length) throw new Error("No organic results");
-  }
+  },
 );
 
 // ========================================
@@ -97,7 +97,7 @@ await runTest(
       console.log(`   → Size: ${result.images[0].imageWidth}x${result.images[0].imageHeight}`);
     }
     if (!result.images.length) throw new Error("No images found");
-  }
+  },
 );
 
 // ========================================
@@ -114,7 +114,7 @@ await runTest(
       console.log(`   → Date: ${result.news[0].date}`);
     }
     if (!result.news.length) throw new Error("No news articles found");
-  }
+  },
 );
 
 // ========================================
@@ -133,7 +133,7 @@ await runTest(
       }
     }
     if (!result.videos.length) throw new Error("No videos found");
-  }
+  },
 );
 
 // ========================================
@@ -150,7 +150,7 @@ await runTest(
       console.log(`   → Source: ${result.shopping[0].source}`);
     }
     if (!result.shopping.length) throw new Error("No products found");
-  }
+  },
 );
 
 // ========================================
@@ -173,7 +173,7 @@ await runTest(
       console.log(`   → PlaceId: ${placeId}`);
     }
     if (!result.places.length) throw new Error("No places found");
-  }
+  },
 );
 
 // ========================================
@@ -188,7 +188,7 @@ await runTest(
       console.log(`   → First place: "${result.places[0].title}"`);
     }
     if (!result.places.length) throw new Error("No places found");
-  }
+  },
 );
 
 // ========================================
@@ -213,7 +213,7 @@ await runTest(
       console.log(`   → Text preview: "${result.reviews[0].snippet.substring(0, 50)}..."`);
     }
     if (!result.reviews.length) throw new Error("No reviews found");
-  }
+  },
 );
 
 // ========================================
@@ -232,7 +232,7 @@ await runTest(
       }
     }
     if (!result.organic.length) throw new Error("No papers found");
-  }
+  },
 );
 
 // ========================================
@@ -250,7 +250,7 @@ await runTest(
       }
     }
     if (!result.organic.length) throw new Error("No patents found");
-  }
+  },
 );
 
 // ========================================
@@ -268,7 +268,7 @@ await runTest(
       });
     }
     if (!result.suggestions.length) throw new Error("No suggestions found");
-  }
+  },
 );
 
 // ========================================

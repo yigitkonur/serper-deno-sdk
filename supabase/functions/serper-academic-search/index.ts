@@ -1,9 +1,9 @@
 /**
  * Serper Academic Search Edge Function
- * 
+ *
  * Business Use Case: Research paper discovery and academic literature search
  * Useful for: Research platforms, citation tools, academic databases
- * 
+ *
  * Example Request:
  * POST /serper-academic-search
  * {
@@ -33,7 +33,7 @@ serve(async (req) => {
     if (!query) {
       return new Response(
         JSON.stringify({ error: "Query is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -41,7 +41,7 @@ serve(async (req) => {
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: "SERPER_API_KEY not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -54,7 +54,7 @@ serve(async (req) => {
 
     const results = await client.searchScholar(query, options as any);
 
-    const papers = results.organic.map(paper => ({
+    const papers = results.organic.map((paper) => ({
       title: paper.title,
       link: paper.link,
       snippet: paper.snippet,
@@ -76,18 +76,18 @@ serve(async (req) => {
         totalResults: papers.length,
         papers,
         summary: {
-          withPdf: papers.filter(p => p.pdfLink).length,
-          withCitations: papers.filter(p => p.citedBy).length,
+          withPdf: papers.filter((p) => p.pdfLink).length,
+          withCitations: papers.filter((p) => p.citedBy).length,
         },
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error" 
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

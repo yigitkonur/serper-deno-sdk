@@ -1,8 +1,8 @@
 /**
  * Serper Web Search Edge Function
- * 
+ *
  * Business Use Case: General web search API for applications
- * 
+ *
  * Example Request:
  * POST /serper-web-search
  * {
@@ -32,7 +32,7 @@ serve(async (req) => {
     if (!query) {
       return new Response(
         JSON.stringify({ error: "Query parameter is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -40,7 +40,7 @@ serve(async (req) => {
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: "SERPER_API_KEY not configured" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -52,7 +52,7 @@ serve(async (req) => {
         success: true,
         query,
         totalResults: results.organic.length,
-        results: results.organic.map(r => ({
+        results: results.organic.map((r) => ({
           title: r.title,
           link: r.link,
           snippet: r.snippet,
@@ -62,15 +62,15 @@ serve(async (req) => {
         peopleAlsoAsk: results.peopleAlsoAsk,
         relatedSearches: results.relatedSearches,
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("Search error:", error);
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error" 
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });
