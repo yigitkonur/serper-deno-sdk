@@ -3,6 +3,11 @@ deno.lock
 coverage/
 cov_profile/
 
+# Environment
+.env
+.env.local
+.env*.local
+
 # IDE
 .vscode/
 .idea/
