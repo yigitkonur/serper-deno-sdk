@@ -7,7 +7,7 @@
  *
  * @example Catching all Serper errors
  * ```ts
- * import { SerperError } from "@serper/deno-sdk";
+ * import { SerperError } from "@yigitkonur/serper-deno-sdk";
  *
  * try {
  *   await client.search("query");
@@ -79,7 +79,7 @@ export class SerperError extends Error {
  *
  * @example
  * ```ts
- * import { SerperAuthError } from "@serper/deno-sdk";
+ * import { SerperAuthError } from "@yigitkonur/serper-deno-sdk";
  *
  * try {
  *   await client.search("query");
@@ -121,7 +121,7 @@ export class SerperAuthError extends SerperError {
  *
  * @example
  * ```ts
- * import { SerperRateLimitError } from "@serper/deno-sdk";
+ * import { SerperRateLimitError } from "@yigitkonur/serper-deno-sdk";
  *
  * try {
  *   await client.search("query");
@@ -163,7 +163,7 @@ export class SerperRateLimitError extends SerperError {
  *
  * @example
  * ```ts
- * import { SerperValidationError } from "@serper/deno-sdk";
+ * import { SerperValidationError } from "@yigitkonur/serper-deno-sdk";
  *
  * try {
  *   await client.search(""); // Empty query
@@ -206,7 +206,7 @@ export class SerperValidationError extends SerperError {
  *
  * @example
  * ```ts
- * import { SerperServerError } from "@serper/deno-sdk";
+ * import { SerperServerError } from "@yigitkonur/serper-deno-sdk";
  *
  * try {
  *   await client.search("query");

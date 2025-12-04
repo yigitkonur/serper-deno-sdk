@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import type { SearchResult, OrganicResult } from "@serper/deno-sdk";
+ * import type { SearchResult, OrganicResult } from "@yigitkonur/serper-deno-sdk";
  * ```
  */
 

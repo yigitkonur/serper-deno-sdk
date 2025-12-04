@@ -1,9 +1,9 @@
-# @serper/deno-sdk
+# @yigitkonur/serper-deno-sdk
 
 > Type-safe Deno SDK for Serper.dev Google Search API
 
-[![JSR](https://jsr.io/badges/@serper/deno-sdk)](https://jsr.io/@serper/deno-sdk)
-[![JSR Score](https://jsr.io/badges/@serper/deno-sdk/score)](https://jsr.io/@serper/deno-sdk)
+[![JSR](https://jsr.io/badges/@yigitkonur/serper-deno-sdk)](https://jsr.io/@yigitkonur/serper-deno-sdk)
+[![JSR Score](https://jsr.io/badges/@yigitkonur/serper-deno-sdk/score)](https://jsr.io/@yigitkonur/serper-deno-sdk)
 
 ## Features
 
@@ -16,19 +16,19 @@
 ## Installation
 
 ```bash
-deno add @serper/deno-sdk
+deno add @yigitkonur/serper-deno-sdk
 ```
 
 Or import directly:
 
 ```ts
-import { SerperClient } from "jsr:@serper/deno-sdk";
+import { SerperClient } from "jsr:@yigitkonur/serper-deno-sdk";
 ```
 
 ## Quick Start
 
 ```ts
-import { SerperClient } from "@serper/deno-sdk";
+import { SerperClient } from "@yigitkonur/serper-deno-sdk";
 
 // Create a client with your API key
 const client = new SerperClient({
@@ -156,7 +156,7 @@ const papers = await client.searchScholar("machine learning", {
   num: 10,
 });
 
-for (const paper of papers.scholar) {
+for (const paper of papers.organic) {
   console.log(paper.title, paper.publicationInfo);
 }
 ```
@@ -166,7 +166,7 @@ for (const paper of papers.scholar) {
 ```ts
 const patents = await client.searchPatents("solar panel efficiency");
 
-for (const patent of patents.patents) {
+for (const patent of patents.organic) {
   console.log(patent.patentNumber, patent.title);
 }
 ```
@@ -176,7 +176,7 @@ for (const patent of patents.patents) {
 ```ts
 const suggestions = await client.autocomplete("how to le");
 console.log(suggestions.suggestions);
-// ["how to learn programming", "how to learn python", ...]
+// [{ value: "how to learn programming" }, { value: "how to learn python" }, ...]
 ```
 
 ## Error Handling
@@ -188,7 +188,7 @@ import {
   SerperRateLimitError,
   SerperServerError,
   SerperValidationError,
-} from "@serper/deno-sdk";
+} from "@yigitkonur/serper-deno-sdk";
 
 try {
   const results = await client.search("query");
@@ -212,7 +212,7 @@ try {
 ## Supabase Edge Functions
 
 ```ts
-import { SerperClient } from "@serper/deno-sdk";
+import { SerperClient } from "@yigitkonur/serper-deno-sdk";
 
 const client = new SerperClient({
   apiKey: Deno.env.get("SERPER_API_KEY")!,
@@ -244,14 +244,14 @@ import type {
   PlaceResult,
   SearchResult,
   // ... and more
-} from "@serper/deno-sdk";
+} from "@yigitkonur/serper-deno-sdk";
 ```
 
 ## Links
 
 - [Serper.dev](https://serper.dev) - Get your API key
 - [API Documentation](https://serper.dev/docs) - Official API docs
-- [JSR Package](https://jsr.io/@serper/deno-sdk) - Package registry
+- [JSR Package](https://jsr.io/@yigitkonur/serper-deno-sdk) - Package registry
 
 ## License
 

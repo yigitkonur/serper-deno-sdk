@@ -14,16 +14,16 @@
  *
  * ```bash
  * # Using Deno
- * deno add @serper/deno-sdk
+ * deno add @yigitkonur/serper-deno-sdk
  *
  * # Or import directly
- * import { SerperClient } from "jsr:@serper/deno-sdk";
+ * import { SerperClient } from "jsr:@yigitkonur/serper-deno-sdk";
  * ```
  *
  * ## Quick Start
  *
  * ```ts
- * import { SerperClient } from "@serper/deno-sdk";
+ * import { SerperClient } from "@yigitkonur/serper-deno-sdk";
  *
  * // Create a client with your API key
  * const client = new SerperClient({
@@ -62,7 +62,7 @@
  *   SerperClient,
  *   SerperAuthError,
  *   SerperRateLimitError
- * } from "@serper/deno-sdk";
+ * } from "@yigitkonur/serper-deno-sdk";
  *
  * try {
  *   const results = await client.search("query");
@@ -78,7 +78,7 @@
  * ## Supabase Edge Functions
  *
  * ```ts
- * import { SerperClient } from "@serper/deno-sdk";
+ * import { SerperClient } from "@yigitkonur/serper-deno-sdk";
  *
  * const client = new SerperClient({
  *   apiKey: Deno.env.get("SERPER_API_KEY")!
@@ -94,7 +94,7 @@
  * ## Links
  *
  * - [Serper.dev](https://serper.dev) - Get your API key
- * - [GitHub](https://github.com/serper/deno-sdk) - Source code
+ * - [GitHub](https://github.com/yigitkonur/serper-deno-sdk) - Source code
  * - [API Docs](https://serper.dev/docs) - Serper API documentation
  *
  * @license MIT
