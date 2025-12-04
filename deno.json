@@ -1,20 +1,21 @@
 {
   "name": "@yigitkonur/serper-deno-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Type-safe Deno SDK for Serper.dev Google Search API - Web, Images, News, Videos, Shopping, Maps, Scholar, Patents",
   "license": "MIT",
   "exports": "./mod.ts",
-
   "compilerOptions": {
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true
   },
-
   "lint": {
     "rules": {
-      "tags": ["recommended", "jsr"],
+      "tags": [
+        "recommended",
+        "jsr"
+      ],
       "include": [
         "explicit-function-return-type",
         "explicit-module-boundary-types",
@@ -30,18 +31,17 @@
       "supabase/"
     ]
   },
-
   "fmt": {
     "indentWidth": 2,
     "lineWidth": 100,
     "singleQuote": false,
     "proseWrap": "preserve"
   },
-
   "test": {
-    "include": ["tests/**/*_test.ts"]
+    "include": [
+      "tests/**/*_test.ts"
+    ]
   },
-
   "publish": {
     "include": [
       "mod.ts",
@@ -58,7 +58,6 @@
       ".github/**"
     ]
   },
-
   "tasks": {
     "test": "deno test --allow-env --allow-read tests/",
     "test:coverage": "deno test --allow-env --allow-read --coverage=cov_profile tests/",
