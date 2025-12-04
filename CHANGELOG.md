@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2024-12-04
+
+### Fixed
+
+- Corrected `ScholarSearchResult` type: results are in `organic` array, not `scholar`
+- Corrected `PatentsSearchResult` type: results are in `organic` array, not `patents`
+- Updated `AutocompleteResult` type to match API structure (object array)
+- Updated `PlaceReview` type to match API structure (nested user object, snippet)
+- Added `topics` and `nextPageToken` to `ReviewsResult`
+
 ## [1.0.0] - 2024-12-04
 
 ### Added

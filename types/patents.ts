@@ -63,5 +63,5 @@ export interface PatentResult {
  */
 export interface PatentsSearchResult extends BaseSearchResult {
   /** Array of patent results. */
-  readonly patents: readonly PatentResult[];
+  readonly organic: readonly PatentResult[];
 }

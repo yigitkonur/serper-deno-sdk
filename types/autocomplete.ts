@@ -45,6 +45,6 @@ export interface AutocompleteOptions {
  * ```
  */
 export interface AutocompleteResult extends BaseSearchResult {
-  /** Array of suggestion strings. */
-  readonly suggestions: readonly string[];
+  /** Array of suggestion objects. */
+  readonly suggestions: readonly { readonly value: string }[];
 }

@@ -77,5 +77,5 @@ export interface ScholarResult {
  */
 export interface ScholarSearchResult extends BaseSearchResult {
   /** Array of academic results. */
-  readonly scholar: readonly ScholarResult[];
+  readonly organic: readonly ScholarResult[];
 }

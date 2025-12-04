@@ -64,30 +64,46 @@ export interface ReviewsOptions {
  * @example
  * ```ts
  * for (const review of result.reviews) {
- *   console.log(`${review.author}: ${review.rating}⭐`);
- *   console.log(`"${review.text}"`);
+ *   console.log(`${review.user.name}: ${review.rating}⭐`);
+ *   console.log(`"${review.snippet}"`);
  *   console.log(`Date: ${review.date}`);
  * }
  * ```
  */
 export interface PlaceReview {
-  /** Reviewer name or alias. */
-  readonly author: string;
-
   /** Star rating (1-5). */
   readonly rating: number;
 
-  /** Review date. */
+  /** Relative date string (e.g., "a week ago"). */
   readonly date: string;
 
-  /** Review text content. */
-  readonly text: string;
+  /** ISO date string (e.g., "2025-11-27T..."). */
+  readonly isoDate?: string;
 
-  /** Number of upvotes/likes on this review. */
-  readonly likes?: number;
+  /** Review text content. */
+  readonly snippet: string;
+
+  /** Number of likes/upvotes (null if none). */
+  readonly likes?: number | null;
+
+  /** User who wrote the review. */
+  readonly user: {
+    readonly name: string;
+    readonly thumbnail?: string;
+    readonly link?: string;
+    readonly reviews?: number;
+    readonly photos?: number;
+  };
+
+  /** Owner response if available. */
+  readonly response?: {
+    readonly date: string;
+    readonly isoDate?: string;
+    readonly snippet: string;
+  };
 
   /** Unique review identifier. */
-  readonly reviewId?: string;
+  readonly id?: string;
 }
 
 /**
@@ -101,11 +117,21 @@ export interface PlaceReview {
  * });
  * console.log(`Found ${result.reviews.length} reviews`);
  * for (const review of result.reviews) {
- *   console.log(`${review.author}: ${review.rating}⭐ - "${review.text}"`);
+ *   console.log(`${review.user.name}: ${review.rating}⭐ - "${review.snippet}"`);
  * }
  * ```
  */
 export interface ReviewsResult extends BaseSearchResult {
-  /** Array of reviews. */
+  /** Array of reviews */
   readonly reviews: readonly PlaceReview[];
+
+  /** Topics mentioned in reviews. */
+  readonly topics?: readonly {
+    readonly name: string;
+    readonly reviews: number;
+    readonly id: string;
+  }[];
+
+  /** Token for the next page of reviews. */
+  readonly nextPageToken?: string;
 }
