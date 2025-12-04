@@ -1,5 +1,5 @@
 {
-  "name": "@serper/deno-sdk",
+  "name": "@yigitkonur/serper-deno-sdk",
   "version": "1.0.0",
   "description": "Type-safe Deno SDK for Serper.dev Google Search API - Web, Images, News, Videos, Shopping, Maps, Scholar, Patents",
   "license": "MIT",
